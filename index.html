@@ -10,41 +10,52 @@
 
 
 <style>
-    #myOnlineCamera video {
-        width: 320px;
-        height: 240px;
-        margin: 15px;
-        float: left;
+    #video-container {
+        text-align: center;
+    }
+    #video {
+        width: 300px;
+        height: 300px;
     }
 
-    #myOnlineCamera canvas {
-        width: 320px;
-        height: 240px;
-        margin: 15px;
-        float: left;
+    #canvas-container {
+        text-align: center;
+    }
+    #canvas {
+        outline: black 3px solid;
+        width: 300px;
+        height: 300px;
     }
 
-    #myOnlineCamera button {
-        clear: both;
-        margin: 30px;
+    #takephoto-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+    #takephoto {
+       padding: 40px;
+       border-radius: 20px;
     }
 </style>
 
 
 <body>
 
-
-    <div id="myOnlineCamera">
+    <div id="video-container">
         <video id="video"></video>
-        <canvas id="canvas"></canvas>
-        <button id="screenshot" onclick="onScreenshot()">Take Photo!</button>
     </div>
 
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="takephoto-container">
+        <button id="takephoto" onclick="onScreenshot()">Take Photo!</button>
+    </div>
 
 
     <script>
 
-
+        // get stream from cam
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
                 video.srcObject = stream;
@@ -53,6 +64,7 @@
             });
         }
 
+        //take screenshot
         function onScreenshot() {
             // Copying the image in a temporary canvas
             var temp = document.getElementById('canvas');
