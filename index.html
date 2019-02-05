@@ -13,27 +13,33 @@
     #video-container {
         text-align: center;
     }
+
     #video {
         width: 300px;
         height: 300px;
     }
 
     #canvas-container {
-        text-align: center;
+        overflow-y: auto;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
     }
-    #canvas {
+
+    canvas {
         outline: black 3px solid;
-        width: 300px;
-        height: 300px;
+        width: 60px;
+        height: 60px;
     }
 
     #takephoto-container {
         text-align: center;
         margin-top: 50px;
     }
+
     #takephoto {
-       padding: 40px;
-       border-radius: 20px;
+        padding: 40px;
+        border-radius: 20px;
     }
 </style>
 
@@ -44,12 +50,10 @@
         <video id="video"></video>
     </div>
 
-    <div id="canvas-container">
-        <canvas id="canvas"></canvas>
-    </div>
+    <div id="canvas-container"></div>
 
     <div id="takephoto-container">
-        <button id="takephoto" onclick="onScreenshot()">Take Photo!</button>
+        <button id="takephoto" onclick="takeScreenshot()">Take Photo!</button>
     </div>
 
 
@@ -65,31 +69,20 @@
         }
 
         //take screenshot
-        function onScreenshot() {
-            // Copying the image in a temporary canvas
-            var temp = document.getElementById('canvas');
+        function takeScreenshot() {
+            let canvas = document.createElement('canvas');
+            canvas.width = video.offsetWidth;
+            canvas.height = video.offsetHeight;
 
-            console.log('take pic')
-            temp.width = video.offsetWidth;
-            temp.height = video.offsetHeight;
-
-            var tempcontext = temp.getContext("2d"),
-                tempScale = (temp.height / temp.width);
-
-            tempcontext.drawImage(
+            let canvasContext = canvas.getContext("2d");
+            canvasContext.drawImage(
                 video,
                 0, 0,
                 video.offsetWidth, video.offsetHeight
             );
 
-            // Resize it to the size of our canvas
-            canvas.style.height = parseInt(canvas.offsetWidth * tempScale);
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            var context = canvas.getContext("2d"),
-                scale = canvas.width / temp.width;
-            context.scale(scale, scale);
-            context.drawImage(video, 0, 0);
+            var container = document.getElementById('canvas-container');
+            container.prepend(canvas);
         }
     </script>
 
