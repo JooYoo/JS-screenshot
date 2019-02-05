@@ -53,12 +53,12 @@
     <div id="canvas-container"></div>
 
     <div id="takephoto-container">
-        <button id="takephoto" onclick="takeScreenshot()">Take Photo!</button>
+        <button id="takephoto" onmousedown="inter=setInterval(takeScreenshot, 1*100);" onmouseup="clearInterval(inter);">Take
+            Photo</button>
     </div>
 
 
     <script>
-
         // get stream from cam
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
@@ -70,6 +70,7 @@
 
         //take screenshot
         function takeScreenshot() {
+            console.log('mouseDown');
             let canvas = document.createElement('canvas');
             canvas.width = video.offsetWidth;
             canvas.height = video.offsetHeight;
