@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS-screeshot</title>
+</head>
+
+
+<style>
+    #myOnlineCamera video {
+        width: 320px;
+        height: 240px;
+        margin: 15px;
+        float: left;
+    }
+
+    #myOnlineCamera canvas {
+        width: 320px;
+        height: 240px;
+        margin: 15px;
+        float: left;
+    }
+
+    #myOnlineCamera button {
+        clear: both;
+        margin: 30px;
+    }
+</style>
+
+
+<body>
+
+
+    <div id="myOnlineCamera">
+        <video id="video"></video>
+        <canvas id="canvas"></canvas>
+        <button id="screenshot" onclick="onScreenshot()">Take Photo!</button>
+    </div>
+
+
+
+    <script>
+
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+                video.srcObject = stream;
+                video.play();
+                console.log('video play!!!!')
+            });
+        }
+
+        function onScreenshot() {
+            // Copying the image in a temporary canvas
+            var temp = document.getElementById('canvas');
+
+            console.log('take pic')
+            temp.width = video.offsetWidth;
+            temp.height = video.offsetHeight;
+
+            var tempcontext = temp.getContext("2d"),
+                tempScale = (temp.height / temp.width);
+
+            tempcontext.drawImage(
+                video,
+                0, 0,
+                video.offsetWidth, video.offsetHeight
+            );
+
+            // Resize it to the size of our canvas
+            canvas.style.height = parseInt(canvas.offsetWidth * tempScale);
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            var context = canvas.getContext("2d"),
+                scale = canvas.width / temp.width;
+            context.scale(scale, scale);
+            context.drawImage(video, 0, 0);
+        }
+    </script>
+
+
+</body>
+
+</html>
